@@ -5,10 +5,10 @@ from django.urls import reverse
 # Create your models here.
 
 class Post(models.Model):
-    author = models.ForeignKey('auth.user')
+    author = models.ForeignKey('auth.user', on_delete=models.CASCADE)
     title = models.CharField(max_length=200)
     text = models.TextField()
-    creation_date = models.DateTimeField(default = timezone.now())
+    creation_date = models.DateTimeField(default = timezone.now)
     publication_date = models.DateTimeField(blank=True, null=True)
 
     def publish(self):
@@ -25,11 +25,11 @@ class Post(models.Model):
         return self.title
     
 
-class Comments(models.Model):
-    post = models.ForeignKey('blogapp.post', related_name='comments')
+class Comment(models.Model):
+    post = models.ForeignKey('blogapp.post', related_name='comments', on_delete=models.CASCADE)
     author = models.CharField(max_length=200)
     text = models.TextField()
-    create_date = models.DateTimeField(default=timezone.now())
+    create_date = models.DateTimeField(default=timezone.now)
     approved_comment = models.BooleanField(default=False)
 
     def approve(self):
